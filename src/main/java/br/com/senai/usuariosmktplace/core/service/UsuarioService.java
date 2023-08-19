@@ -3,8 +3,9 @@ package br.com.senai.usuariosmktplace.core.service;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.MessageDigestAlgorithms;
 
 import br.com.senai.usuariosmktplace.core.dao.DaoUsuario;
 import br.com.senai.usuariosmktplace.core.dao.FactoryDao;
@@ -28,18 +29,6 @@ public class UsuarioService {
 	    this.dao.inserirUsuario(usuario);
 	}
 	
-	public Usuario criarLogin(String login) {
-		
-		 Usuario usuarioLocalizado = this.dao.buscarPor(login);
-		if(usuarioLocalizado != null) {
-			throw new IllegalArgumentException("Login já cadastrado no banco de dados");
-		}else {
-			
-			
-		}
-		 
-		return null;
-	}
 	
 	public void validar(Usuario usuario) {
 		if (usuario != null) {
@@ -131,7 +120,9 @@ public class UsuarioService {
 		
 	}
 	
-	
+	public String gerarHashDa(String senha) {
+        return new DigestUtils(MessageDigestAlgorithms.MD5).digestAsHex(senha);
+    }
 }
 
 
